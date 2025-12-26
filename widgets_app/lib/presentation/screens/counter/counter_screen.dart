@@ -11,7 +11,7 @@ class CounterScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final count = ref.watch(counterProvider);
-    final isDarkMode = ref.watch(themeProvider);
+    final isDarkMode = ref.watch(appThemeProvider).isDarkMode;
     final icon =
         isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined;
 
@@ -25,7 +25,7 @@ class CounterScreen extends ConsumerWidget {
         title: const Text('Counter Riverpod'),
         actions: [
           IconButton(
-            onPressed: ref.read(themeProvider.notifier).toggle,
+            onPressed: ref.read(appThemeProvider.notifier).toggleTheme,
             icon: Icon(icon),
           )
         ],

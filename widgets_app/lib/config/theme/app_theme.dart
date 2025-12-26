@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 const colorList = [
@@ -15,22 +16,32 @@ const colorList = [
 class AppTheme {
   AppTheme({
     this.selectedColor = 0,
-    required this.isDark,
+    required this.isDarkMode,
   }) : assert(
           selectedColor >= 0 && selectedColor < colorList.length,
         );
 
   final int selectedColor;
-  final bool isDark;
+  final bool isDarkMode;
 
   ThemeData getTheme() {
     return ThemeData(
-      brightness: isDark ? Brightness.dark : Brightness.light,
+      brightness: isDarkMode ? Brightness.dark : Brightness.light,
       useMaterial3: true,
       colorSchemeSeed: colorList[selectedColor],
       appBarTheme: const AppBarTheme(
         centerTitle: true,
       ),
+    );
+  }
+
+  AppTheme copyWith({
+    int? selectedColor,
+    bool? isDarkMode,
+  }) {
+    return AppTheme(
+      selectedColor: selectedColor ?? this.selectedColor,
+      isDarkMode: isDarkMode ?? this.isDarkMode,
     );
   }
 }
