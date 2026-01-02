@@ -33,6 +33,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideshowMovies = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
@@ -41,48 +43,52 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return Scaffold(
       bottomNavigationBar: CustomBottomNavigationBar(),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            flexibleSpace: FlexibleSpaceBar(title: CustomAppBar()),
-          ),
-          SliverList.list(
-            children: [
-              MoviesSlideshow(movies: slideshowMovies),
-              MovieHorizontalListView(
-                loadNextPage: ref
-                    .read(nowPlayingMoviesProvider.notifier)
-                    .loadNextPage,
-                movies: nowPlayingMovies,
-                title: 'En cines',
-                subtitle: 'Lunes 20',
-              ),
-              MovieHorizontalListView(
-                loadNextPage: ref
-                    .read(popularMoviesProvider.notifier)
-                    .loadNextPage,
-                movies: popularMovies,
-                title: 'Populares',
-              ),
-              MovieHorizontalListView(
-                loadNextPage: ref
-                    .read(upcomingMoviesProvider.notifier)
-                    .loadNextPage,
-                movies: upcomingMovies,
-                title: 'Proximamente',
-              ),
-              MovieHorizontalListView(
-                loadNextPage: ref
-                    .read(topRatedMoviesProvider.notifier)
-                    .loadNextPage,
-                movies: topRatedMovies,
-                title: 'Top Rated',
-              ),
-            ],
-          ),
-        ],
-      ),
+      body: initialLoading
+          ? CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  floating: true,
+                  flexibleSpace: FlexibleSpaceBar(title: CustomAppBar()),
+                ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      MoviesSlideshow(movies: slideshowMovies),
+                      MovieHorizontalListView(
+                        loadNextPage: ref
+                            .read(nowPlayingMoviesProvider.notifier)
+                            .loadNextPage,
+                        movies: nowPlayingMovies,
+                        title: 'En cines',
+                        subtitle: 'Lunes 20',
+                      ),
+                      MovieHorizontalListView(
+                        loadNextPage: ref
+                            .read(popularMoviesProvider.notifier)
+                            .loadNextPage,
+                        movies: popularMovies,
+                        title: 'Populares',
+                      ),
+                      MovieHorizontalListView(
+                        loadNextPage: ref
+                            .read(upcomingMoviesProvider.notifier)
+                            .loadNextPage,
+                        movies: upcomingMovies,
+                        title: 'Proximamente',
+                      ),
+                      MovieHorizontalListView(
+                        loadNextPage: ref
+                            .read(topRatedMoviesProvider.notifier)
+                            .loadNextPage,
+                        movies: topRatedMovies,
+                        title: 'Top Rated',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : FullScreenLoader(),
     );
   }
 }
