@@ -35,17 +35,24 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return Scaffold(
       bottomNavigationBar: CustomBottomNavigationBar(),
-      body: Column(
-        children: [
-          CustomAppBar(),
-          MoviesSlideshow(movies: slideshowMovies),
-          MovieHorizontalListView(
-            loadNextPage: ref
-                .read(nowPlayingMoviesProvider.notifier)
-                .loadNextPage,
-            movies: ref.watch(nowPlayingMoviesProvider),
-            title: 'En cines',
-            subtitle: 'Lunes 20',
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(title: CustomAppBar()),
+          ),
+          SliverList.list(
+            children: [
+              MoviesSlideshow(movies: slideshowMovies),
+              MovieHorizontalListView(
+                loadNextPage: ref
+                    .read(nowPlayingMoviesProvider.notifier)
+                    .loadNextPage,
+                movies: ref.watch(nowPlayingMoviesProvider),
+                title: 'En cines',
+                subtitle: 'Lunes 20',
+              ),
+            ],
           ),
         ],
       ),
