@@ -34,6 +34,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final slideshowMovies = ref.watch(moviesSlideshowProvider);
 
     return Scaffold(
+      bottomNavigationBar: CustomBottomNavigationBar(),
       body: Column(
         children: [
           CustomAppBar(),
