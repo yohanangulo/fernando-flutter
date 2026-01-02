@@ -40,6 +40,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
           CustomAppBar(),
           MoviesSlideshow(movies: slideshowMovies),
           MovieHorizontalListView(
+            loadNextPage: ref
+                .read(nowPlayingMoviesProvider.notifier)
+                .loadNextPage,
             movies: ref.watch(nowPlayingMoviesProvider),
             title: 'En cines',
             subtitle: 'Lunes 20',
