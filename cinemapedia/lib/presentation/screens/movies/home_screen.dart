@@ -26,12 +26,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideshowMovies = ref.watch(moviesSlideshowProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return Scaffold(
       bottomNavigationBar: CustomBottomNavigationBar(),
@@ -48,9 +54,30 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 loadNextPage: ref
                     .read(nowPlayingMoviesProvider.notifier)
                     .loadNextPage,
-                movies: ref.watch(nowPlayingMoviesProvider),
+                movies: nowPlayingMovies,
                 title: 'En cines',
                 subtitle: 'Lunes 20',
+              ),
+              MovieHorizontalListView(
+                loadNextPage: ref
+                    .read(popularMoviesProvider.notifier)
+                    .loadNextPage,
+                movies: popularMovies,
+                title: 'Populares',
+              ),
+              MovieHorizontalListView(
+                loadNextPage: ref
+                    .read(upcomingMoviesProvider.notifier)
+                    .loadNextPage,
+                movies: upcomingMovies,
+                title: 'Proximamente',
+              ),
+              MovieHorizontalListView(
+                loadNextPage: ref
+                    .read(topRatedMoviesProvider.notifier)
+                    .loadNextPage,
+                movies: topRatedMovies,
+                title: 'Top Rated',
               ),
             ],
           ),
